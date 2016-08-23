@@ -1,7 +1,7 @@
 Facter.add(:ip6tables_version) do
   has_weight 100
-  confine :operatingsystem => 'RedHat'
-  confine :lsbmajdistrelease => 5
+#  confine :operatingsystem => 'RedHat'
+#  confine :lsbmajdistrelease => 5
   setcode do
     version = Facter::Util::Resolution.exec('ip6tables --version')
     if version
