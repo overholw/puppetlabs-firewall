@@ -6,7 +6,7 @@
 # like we'll need to maintain this for some time perhaps.
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"..",".."))
 require 'puppet/util/firewall'
-require 'syslog/logger'
+require 'syslog'
 
 Puppet::Type.newtype(:firewallchain) do
   include Puppet::Util::Firewall
@@ -227,8 +227,7 @@ Puppet::Type.newtype(:firewallchain) do
       rules_resources.each {|res| puts res.class }
     else 
       rules_resources = Puppet::Type.type(:firewall).instances
-      log = Syslog::Logger.new 'firewallchain'      
-      rules_resources.each {|res| log.info res.class }
+      rules_resources.each {|res| Syslog.log(Syslog::LOG_NOTICE, res.class) }
     end
 
     # Keep only rules in this chain
