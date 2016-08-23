@@ -6,7 +6,7 @@ Facter.add(:ip6tables_version) do
     version = Facter::Util::Resolution.exec('ip6tables --version')
     if version
       if (/1\.3\./ =~ version )
-        nil
+        ""
       else
         version.match(/\d+\.\d+\.\d+/).to_s
       end
