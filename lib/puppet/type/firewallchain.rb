@@ -219,7 +219,13 @@ Puppet::Type.newtype(:firewallchain) do
                end
 
     # gather a list of all rules present on the system
-    rules_resources = Puppet::Type.type(:firewall).instances
+    ip6tables_version = Facter.value('ip6tables_version')
+    if ip6tables_version and ip6tables_version.match /1\.3\.\d/
+      rules_resources = Puppet::Type.type(:firewall).instances
+      rules_resources.each {|res| print res.type }
+    else 
+      rules_resources = Puppet::Type.type(:firewall).instances
+    end
 
     # Keep only rules in this chain
     rules_resources.delete_if { |res| (res[:provider] != provider or res.provider.properties[:table].to_s != table or res.provider.properties[:chain] != chain) }
