@@ -6,6 +6,7 @@
 # like we'll need to maintain this for some time perhaps.
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"..",".."))
 require 'puppet/util/firewall'
+require 'syslog/logger'
 
 Puppet::Type.newtype(:firewallchain) do
   include Puppet::Util::Firewall
@@ -221,11 +222,13 @@ Puppet::Type.newtype(:firewallchain) do
     # gather a list of all rules present on the system
     ip6tables_version = Facter.value('ip6tables_version')
     if ip6tables_version and ip6tables_version.match /1\.3\.\d/
+      puts "loading types of firewalls"
       rules_resources = Puppet::Type.type(:firewall).instances
-      rules_resources.each {|res| print res.type }
+      rules_resources.each {|res| puts res.class }
     else 
       rules_resources = Puppet::Type.type(:firewall).instances
-      rules_resources.each {|res| print res.class }
+      log = Syslog::Logger.new 'firewallchain'      
+      rules_resources.each {|res| log.info res.class }
     end
 
     # Keep only rules in this chain
