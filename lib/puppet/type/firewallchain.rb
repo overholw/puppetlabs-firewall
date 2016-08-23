@@ -225,6 +225,7 @@ Puppet::Type.newtype(:firewallchain) do
       rules_resources.each {|res| print res.type }
     else 
       rules_resources = Puppet::Type.type(:firewall).instances
+      rules_resources.each {|res| print res.class }
     end
 
     # Keep only rules in this chain
