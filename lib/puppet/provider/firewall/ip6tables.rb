@@ -63,6 +63,7 @@ Puppet::Type.type(:firewall).provide :ip6tables, :parent => :iptables, :source =
     ip6tables_version = Facter.value('ip6tables_version')
     if ip6tables_version and ip6tables_version.match /1\.3\.\d/
       # do nothing
+      ""
     else 
       ip6tables(*args)
     end
@@ -72,6 +73,7 @@ Puppet::Type.type(:firewall).provide :ip6tables, :parent => :iptables, :source =
     ip6tables_version = Facter.value('ip6tables_version')
     if ip6tables_version and ip6tables_version.match /1\.3\.\d/
       # do nothing
+      ""
     else
       ip6tables_save(*args)
     end
