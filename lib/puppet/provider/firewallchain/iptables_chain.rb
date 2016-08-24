@@ -174,6 +174,7 @@ Puppet::Type.type(:firewallchain).provide :iptables_chain do
     table = $2
     protocol = $3
     if (protocol == "ip6tables")
+      raise ArgumentError, 'allvalidchains called with ip6tables as parameter'
       ip6tables_version = Facter.value('ip6tables_version')
       if ip6tables_version and ip6tables_version.match /1\.3\.\d/
         raise ArgumentError, 'The ip6tables provider is being called in iptables_chain'
