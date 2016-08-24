@@ -221,12 +221,9 @@ Puppet::Type.newtype(:firewallchain) do
     # gather a list of all rules present on the system
     ip6tables_version = Facter.value('ip6tables_version')
     if ip6tables_version and ip6tables_version.match /1\.3\.\d/
-      puts "loading types of firewalls"
-      rules_resources = Puppet::Type.type(:firewall).instances
-      rules_resources.each {|res| puts res.class }
+      rules_resources = []
     else 
       rules_resources = Puppet::Type.type(:firewall).instances
-      rules_resources.each {|res| raise ArgumentError, res.class }
     end
 
     # Keep only rules in this chain

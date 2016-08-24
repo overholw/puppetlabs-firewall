@@ -173,7 +173,16 @@ Puppet::Type.type(:firewallchain).provide :iptables_chain do
     chain = $1
     table = $2
     protocol = $3
-    yield Mapping[protocol.to_sym][:tables],chain,table,protocol.to_sym
+    if (protocol == "ip6tables")
+      ip6tables_version = Facter.value('ip6tables_version')
+      if ip6tables_version and ip6tables_version.match /1\.3\.\d/
+        raise ArgumentError, 'The ip6tables provider is being called in iptables_chain'
+      else
+        yield Mapping[protocol.to_sym][:tables],chain,table,protocol.to_sym
+      end
+    else
+        yield Mapping[protocol.to_sym][:tables],chain,table,protocol.to_sym
+    end
   end
 
 end
