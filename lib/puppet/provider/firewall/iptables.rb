@@ -42,6 +42,7 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
   optional_commands({
     :iptables => 'iptables',
     :iptables_save => 'iptables-save',
+    :logger => 'logger',
   })
 
   defaultfor :kernel => :linux
@@ -187,6 +188,14 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
     :owner     => [:uid, :gid],
     :time      => [:time_start, :time_stop, :month_days, :week_days, :date_start, :date_stop, :time_contiguous, :kernel_timezone]
   }
+
+  def self.iptables(*args)
+    iptables(*args)
+  end
+
+  def self.iptables_save(*args)
+    iptables_save(*args)    
+  end
 
   def self.munge_resource_map_from_existing_values(resource_map_original, compare)
     resource_map_new = resource_map_original.clone
