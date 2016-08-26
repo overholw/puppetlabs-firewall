@@ -189,12 +189,15 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
     :time      => [:time_start, :time_stop, :month_days, :week_days, :date_start, :date_stop, :time_contiguous, :kernel_timezone]
   }
 
+  alias_method :iptables_real :iptables
+  alias_method :iptables_save_real :iptables_save
+
   def self.iptables(*args)
-    iptables(*args)
+    iptables_real(*args)
   end
 
   def self.iptables_save(*args)
-    iptables_save(*args)    
+    iptables_save_real(*args)    
   end
 
   def self.munge_resource_map_from_existing_values(resource_map_original, compare)
