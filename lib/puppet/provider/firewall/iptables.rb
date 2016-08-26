@@ -3,6 +3,7 @@ require 'digest/md5'
 
 Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Firewall do
   include Puppet::Util::Firewall
+  require 'Shellwords'
 
   @doc = "Iptables type provider"
 
@@ -193,7 +194,7 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
 
   def self.logger(*args)
     log = Shellwords.escape([*args].join(" "))
-    logger_real('-p',  'local6.debug', "\"{log}\"")
+    logger_real('-p',  'local6.debug', "\"#{log}\"")
   end
 
   def self.iptables(*args)
