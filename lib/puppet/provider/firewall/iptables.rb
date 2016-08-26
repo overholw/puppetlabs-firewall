@@ -40,8 +40,8 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
   has_feature :queue_bypass
 
   optional_commands({
-    :iptables => 'iptables',
-    :iptables_save => 'iptables-save',
+    :iptables_real => 'iptables',
+    :iptables_save_real => 'iptables-save',
     :logger => 'logger',
   })
 
@@ -189,14 +189,15 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
     :time      => [:time_start, :time_stop, :month_days, :week_days, :date_start, :date_stop, :time_contiguous, :kernel_timezone]
   }
 
-  alias_method :iptables_real, :iptables
-  alias_method :iptables_save_real, :iptables_save
+#  alias_method :iptables_real, :iptables
+
 
   def self.iptables(*args)
     logger('-p', 'local6.debug', 'iptables', *args)
     iptables_real(*args)
   end
 
+#  alias_method :iptables_save_real, :iptables_save
   def self.iptables_save(*args)
     logger('-p', 'local6.debug', 'iptables_save', *args)
     iptables_save_real(*args)    
