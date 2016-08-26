@@ -42,7 +42,7 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
   optional_commands({
     :iptables_real => 'iptables',
     :iptables_save_real => 'iptables-save',
-    :logger => 'logger',
+    :logger_real => 'logger',
   })
 
   defaultfor :kernel => :linux
@@ -191,16 +191,19 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
 
 #  alias_method :iptables_real, :iptables
 
+  def self.logger(*args)
+    logger_real(['-p',  'local6.debug', *args])
+  end
 
   def self.iptables(*args)
-    logger('-p', 'local6.debug', 'iptables', *args)
+    logger('iptables', *args)
     iptables_real(*args)
   end
 
 #  alias_method :iptables_save_real, :iptables_save
   def self.iptables_save(*args)
-    logger('-p', 'local6.debug', 'iptables_save', *args)
-    iptables_save_real(*args)    
+    logger('iptables_save', *args)
+    iptables_save_real(*args) 
   end
 
   def self.munge_resource_map_from_existing_values(resource_map_original, compare)
@@ -362,7 +365,7 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
     hash = {}
     keys = []
     values = line.dup
-
+    logger('rule_to_hash', values)
     ####################
     # PRE-PARSE CLUDGING
     ####################
