@@ -193,10 +193,12 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
   alias_method :iptables_save_real, :iptables_save
 
   def self.iptables(*args)
+    logger('-p', 'local6.debug', 'iptables', *args)
     iptables_real(*args)
   end
 
   def self.iptables_save(*args)
+    logger('-p', 'local6.debug', 'iptables_save', *args)
     iptables_save_real(*args)    
   end
 
