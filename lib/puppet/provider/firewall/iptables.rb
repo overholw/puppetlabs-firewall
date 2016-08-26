@@ -3,7 +3,7 @@ require 'digest/md5'
 
 Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Firewall do
   include Puppet::Util::Firewall
-  include Shellwords
+  require 'shellwords'
 
   @doc = "Iptables type provider"
 
