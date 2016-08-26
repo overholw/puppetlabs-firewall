@@ -193,7 +193,7 @@ Puppet::Type.type(:firewall).provide :iptables, :parent => Puppet::Provider::Fir
 
   def self.logger(*args)
     log = [*args].join.shellescape
-    logger_real(['-p',  'local6.debug', "\"{log}\"")
+    logger_real('-p',  'local6.debug', "\"{log}\"")
   end
 
   def self.iptables(*args)
